@@ -19,15 +19,11 @@ def get_next_id():
 def create_record(dictionary):
     id = get_next_id()
     #create a record of a user's username and password
-    x= users_account.find_one({"username":dictionary["username"]})
-    #check if username exists already
-    if x:
-        return None
-    else:
-        users_account.insert_one({"id": int(id), "username": dictionary.get("username"), "password": dictionary.get("password")})
-
-        dic = {"id": int(id), "username": dictionary.get("username"), "password": dictionary.get("password")}
-        return dic
+    #handle duplicate usernames
+        #check if ursenamgit add
+    users_account.insert_one({"id": int(id), "username": dictionary.get("username"), "password": dictionary.get("password")})
+    dic = {"id": int(id), "username": dictionary.get("username"), "password": dictionary.get("password")}
+    return dic
 
 #how do we handle  duplicate usernames?
 def update_username(id, dictionary):
