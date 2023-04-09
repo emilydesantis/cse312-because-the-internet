@@ -16,11 +16,21 @@ def get_next_id():
         users_id_collection.insert_one({'last_id': 1})
         return 1
     
-def create_record(d):
+def create_record(dictionary):
     id = get_next_id()
-    users_account.insert_one({"id": int(id), "username": d.get("username"), "password": d.get("password")})
-    dic = {"id": int(id), "username": d.get("username"), "password": d.get("password")}
+    #create a record of a user's username and password
+    users_account.insert_one({"id": int(id), "username": dictionary.get("username"), "password": dictionary.get("password")})
+    dic = {"id": int(id), "username": dictionary.get("username"), "password": dictionary.get("password")}
     return dic
+
+#how do we handle  duplicate usernames?
+def update_username(id, dictionary):
+    #update username
+    users_account.update_one({"id":int(id)},{"$set":{"username":dictionary.get("username")}})
+    dic = {{"username":dictionary.get("username")}}
+    return dic
+
+
 
 
 
