@@ -8,39 +8,48 @@
     font-family: Serif, sans-serif;
 }
 
-.container.one{
+.container{
     height: 100vh;
     width: 100%;
     display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: left;
-    background-color: #2b40a1
+    background-color: #2b40a1;
 }
 
-.form.one{
+/*.form-content-one{*/
+/*      justify-content: left;*/
+/*}*/
+
+/*.form-content-two{*/
+/*    justify-content: right;*/
+/*}*/
+
+.form{
     max-width: 430px;
     width: 100%;
     padding: 30px;
-    border-radius: 6px;
+    border-radius: 20px;
     background: white;
+    margin: 50px;
 }
-header.one{
+header{
     font-size: 28px;
     font-weight: 600;
     color: black;
     text-align: center;
 }
-form.one{
+form{
     margin-top: 30px;
 }
-form .field.one{
+form .field{
     height: 50px;
     width: 100%;
     margin-top: 20px;
 }
 
-.field input.one,
-.field button.one{
+.field input,
+.field button{
     height: 100%;
     width: 100%;
     border: none;
@@ -50,8 +59,8 @@ form .field.one{
     color: black;
 }
 
-.field input.one{
-    padding: 0 15px;
+.field input{
+    padding:  15px;
     border: 1px solid#2b40a1;
 }
 
