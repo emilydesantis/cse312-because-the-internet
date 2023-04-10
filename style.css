@@ -1,0 +1,64 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: white;
+    color: Black;
+    font-family: Serif, sans-serif;
+}
+
+.container{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    background-color: #2b40a1
+}
+
+.form{
+    max-width: 430px;
+    width: 100%;
+    padding: 30px;
+    border-radius: 6px;
+    background: white;
+}
+header{
+    font-size: 28px;
+    font-weight: 600;
+    color: black;
+    text-align: center;
+}
+form{
+    margin-top: 30px;
+}
+form .field{
+    height: 50px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.field input,
+.field button{
+    height: 100%;
+    width: 100%;
+    border: none;
+    font-size: 16px;
+    font-weight: 400;
+    border-radius: 6px;
+    color: black;
+}
+
+.field input{
+    padding: 0 15px;
+    border: 1px solid#2b40a1;
+}
+
+/*.eye-icon{*/
+/*    position: absolute;*/
+/*    font-size: 18px;*/
+/*    color: black;*/
+/*}*/
+
+

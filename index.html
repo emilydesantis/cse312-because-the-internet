@@ -1,34 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>N-1 Questions</title>
+    <title>Login and SignUp Forms</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" re1="stytlesheet">
 </head>
-<style>
-    /*https://stackoverflow.com/a/7782251*/
-    canvas {
-        padding: 0;
-        margin: auto;
-        display: block;
-    }
-    body {
-        background: #78a547;
-    }
+<body onload="welcome();">
+<h1>N-1 Questions</h1>
 
-</style>
-<body>
+    <section class="container forms">
+        <div class="form login">
+            <div class="form-content">
+                <header>Login</header>
 
-<div id="main-container" style="margin: 0 auto;"></div>
+                <form action="#">
+                    <div class="field input-field">
+                        <input type="email" placeholder="Email" class="input">
+                    </div>
 
-<script src="https://pixijs.download/release/pixi.js"></script>
+                    <div class="field input-field">
+                        <input type="password" placeholder="Password" class="password">
+                        <i class='bx bx-hide eye-icon'></i>
+                    </div>
 
-<script src="styleguide.js"></script>
-<script src="items.js"></script>
-<script src="loading.js"></script>
+                    <!--forgot password?-->
 
-<!--Files with no dependencies-->
-<script src="main.js"></script>
-<script src="scripts.js"></script>
+                    <div class="field button-field">
+                        <button>Go</button>
+                    </div>
+                </form>
 
-</body>
-</html>
+            </div>
+        </div>
+    </section>
