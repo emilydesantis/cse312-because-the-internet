@@ -8,7 +8,7 @@
     font-family: Serif, sans-serif;
 }
 
-.container{
+.container.one{
     height: 100vh;
     width: 100%;
     display: flex;
@@ -17,30 +17,30 @@
     background-color: #2b40a1
 }
 
-.form{
+.form.one{
     max-width: 430px;
     width: 100%;
     padding: 30px;
     border-radius: 6px;
     background: white;
 }
-header{
+header.one{
     font-size: 28px;
     font-weight: 600;
     color: black;
     text-align: center;
 }
-form{
+form.one{
     margin-top: 30px;
 }
-form .field{
+form .field.one{
     height: 50px;
     width: 100%;
     margin-top: 20px;
 }
 
-.field input,
-.field button{
+.field input.one,
+.field button.one{
     height: 100%;
     width: 100%;
     border: none;
@@ -50,7 +50,7 @@ form .field{
     color: black;
 }
 
-.field input{
+.field input.one{
     padding: 0 15px;
     border: 1px solid#2b40a1;
 }
