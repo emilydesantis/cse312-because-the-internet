@@ -14,21 +14,21 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
         request = header.split(b'\r\n')
 
         if b'GET / ' in request[0]:
-            with open("sample_page/index.html","rb") as html_file: 
+            with open("frontend/index.html","rb") as html_file: 
                 bytearray = html_file.read()
                 file_length = len(bytearray)
                 self.request.sendall((f"HTTP/1.1 200 OK\r\nContent-Length: "+str(file_length)+"\r\nX-Content-Type-Options: nosniff\r\nContent-Type: text/html; charset=utf-8\r\n\r\n").encode()+bytearray)
                 
 
         elif b'/loading.js' in request[0]:
-            with open("sample_page/functions.js", "rb") as js_file:
+            with open("frontend/loading.js", "rb") as js_file:
                 bytearray = js_file.read()
                 file_length = len(bytearray)
                 self.request.sendall((f"HTTP/1.1 200 OK\r\nContent-Length:"+str(file_length)+"\r\nX-Content-Type-Options: nosniff\r\nContent-Type: text/javascript; charset=utf-8\r\n\r\n").encode()+bytearray)
 
 
         elif b'/style.css' in request[0]:
-            with open("sample_page/style.css", "rb") as css_file:
+            with open("frontend/style.css", "rb") as css_file:
                 bytearray = css_file.read()
                 file_length = len(bytearray)
                 self.request.sendall((f"HTTP/1.1 200 OK\r\nContent-Length:"+str(file_length)+"\r\nX-Content-Type-Options: nosniff\r\nContent-Type: text/css; charset=utf-8\r\n\r\n").encode()+bytearray)
