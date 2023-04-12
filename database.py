@@ -16,6 +16,7 @@ def get_next_id():
         users_id_collection.insert_one({'last_id': 1})
         return 1
     
+    
 def create_record(dictionary):
     id = get_next_id()
     #create a record of a user's username and password
