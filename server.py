@@ -3,8 +3,8 @@ import database
 import json
 import hashlib
 import base64
-from flask import Flask
-from flask_sock import Sock
+#from flask import Flask
+#from flask_sock import Sock
 
 
 
@@ -21,32 +21,36 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
                 file_length = len(bytearray)
                 self.request.sendall((f"HTTP/1.1 200 OK\r\nContent-Length: "+str(file_length)+"\r\nX-Content-Type-Options: nosniff\r\nContent-Type: text/html; charset=utf-8\r\n\r\n").encode()+bytearray)
                 
-
         elif b'/loading.js' in request[0]:
             with open("frontend/loading.js", "rb") as js_file:
                 bytearray = js_file.read()
                 file_length = len(bytearray)
                 self.request.sendall((f"HTTP/1.1 200 OK\r\nContent-Length:"+str(file_length)+"\r\nX-Content-Type-Options: nosniff\r\nContent-Type: text/javascript; charset=utf-8\r\n\r\n").encode()+bytearray)
+        
         elif b'/main.js' in request[0]:
             with open("frontend/main.js", "rb") as css_file:
                 bytearray = css_file.read()
                 file_length = len(bytearray)
                 self.request.sendall((f"HTTP/1.1 200 OK\r\nContent-Length:"+str(file_length)+"\r\nX-Content-Type-Options: nosniff\r\nContent-Type: text/css; charset=utf-8\r\n\r\n").encode()+bytearray)
+        
         elif b'/script.js' in request[0]:
             with open("frontend/script.js", "rb") as css_file:
                 bytearray = css_file.read()
                 file_length = len(bytearray)
                 self.request.sendall((f"HTTP/1.1 200 OK\r\nContent-Length:"+str(file_length)+"\r\nX-Content-Type-Options: nosniff\r\nContent-Type: text/css; charset=utf-8\r\n\r\n").encode()+bytearray)
+        
         elif b'/items.js' in request[0]:
             with open("frontend/items.js", "rb") as css_file:
                 bytearray = css_file.read()
                 file_length = len(bytearray)
                 self.request.sendall((f"HTTP/1.1 200 OK\r\nContent-Length:"+str(file_length)+"\r\nX-Content-Type-Options: nosniff\r\nContent-Type: text/css; charset=utf-8\r\n\r\n").encode()+bytearray)
+        
         elif b'/styleguide.js' in request[0]:
             with open("frontend/styleguide.js", "rb") as css_file:
                 bytearray = css_file.read()
                 file_length = len(bytearray)
                 self.request.sendall((f"HTTP/1.1 200 OK\r\nContent-Length:"+str(file_length)+"\r\nX-Content-Type-Options: nosniff\r\nContent-Type: text/css; charset=utf-8\r\n\r\n").encode()+bytearray)                                
+        
         elif b'/style.css' in request[0]:
             with open("frontend/style.css", "rb") as css_file:
                 bytearray = css_file.read()
