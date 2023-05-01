@@ -1,19 +1,19 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 from flask_socketio import join_room, leave_room
-app = Flask(__name__, template_folder= 'frontend')
+app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/loading.js')
-def loading_js():
-    return app.send_static_file('loading.js')
+# @app.route('/loading.js')
+# def loading_js():
+#     return app.send_static_file('loading.js')
 
-@app.route('/style.css')
-def style_css():
-    return app.send_static_file('style.css')
+# @app.route('/style.css')
+# def style_css():
+#     return app.send_static_file('style.css')
 
 @app.errorhandler(404)
 def not_found_error(error):
