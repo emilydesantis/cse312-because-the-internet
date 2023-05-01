@@ -1,12 +1,43 @@
+<!--<html>-->
+<!--<head>-->
+<!--    <title>Main Page</title>-->
+<!--    <link rel="stylesheet" type="text/css" href="style.css"/>-->
+
+<!--    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" re1="stylesheet">-->
+<!--</head>-->
+
+<!--<body onload="welcome();">-->
+<!--<h1 style="text-align:center">N-1 Questions</h1>-->
+<!--<h2 style="text-align:center">Amount of questions left: </h2>-->
+<!--<h3 style="text-align:center"> </h3>-->
 <html>
 <head>
     <title>Main Page</title>
     <link rel="stylesheet" type="text/css" href="style.css"/>
 
-    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" re1="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" re1="stytlesheet">
 </head>
 
 <body onload="welcome();">
 <h1 style="text-align:center">N-1 Questions</h1>
-<h2 style="text-align:center">Amount of questions left: </h2>
-<h3 style="text-align:center"> </h3>
+
+<section class="container-2">
+    <div class="game-data-answerer">
+        <h1 style="text-align:center">{{Current Question}} </h1>
+        <br>
+        <h3 style="text-align:center">Amount of Questions left:</h3>
+        <form >
+            <div style="text-align:left">Enter your Question Here:</div>
+            <input type="text" placeholder="Enter your question here" class="input">
+            <div class="field button-field">
+                <button type="submit">Submit</button> <!--fix-->
+            </div>
+        </form>
+    </div>
+</section>
+
+<section class="container">
+    <div class="chat-history">
+        <h1>{{Chat History TBA}}</h1> <!--well fix this later-->
+    </div>
+</section>
