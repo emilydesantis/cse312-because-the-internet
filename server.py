@@ -19,32 +19,46 @@ def page3():
 @app.route('/cse312-because-the-internet/templates/page4.html')
 def page4():
     return render_template('page4.html')
-# @app.route('/loading.js')
-# def loading_js():
-#     return app.send_static_file('loading.js')
 
-# @app.route('/style.css')
-# def style_css():
-#     return app.send_static_file('style.css')
+@app.route('/test')
+def test():
+    return render_template('test.html')
 
 @app.errorhandler(404)
 def not_found_error(error):
     return 'Error', 404
+#--------------------------------------
+#websocket handlers
+@socketio.on('create_room')
+def handle_create_room(data):
+    username= data['username']
+    room_name = data['room_name']
+    join_room(room_name)
+    emit('room_created', {'username': username, 'room_name': room_name}, room=room_name)
+
+@socketio.on('join_room')
+def handle_join_room(data):
+    username = data['username']
+    room_name = data['room_name']
+    join_room(room_name)
+    emit('player_joined', {'username': username, 'room_name': room_name}, room=room_name)
 
 @socketio.on('join')
-def on_join(user_data):
-    username = user_data['username']
-    room = user_data['room']
+def on_join(data):
+    username = data['username']
+    room = data['room']
     join_room(room)
     send(username + ' has entered the room.', to=room)
 
 @socketio.on('leave')
-def on_leave(user_data):
-    username = user_data['username']
-    room = user_data['room']
+def on_leave(data):
+    username = data['username']
+    room = data['room']
     leave_room(room)
     send(username + ' has left the room.', to=room)
 
 
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', port=8080, debug=True)
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    socketio.run(app, host="0.0.0.0", port=8080, debug=True, allow_unsafe_werkzeug=True)
