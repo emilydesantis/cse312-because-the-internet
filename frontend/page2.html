@@ -3,7 +3,7 @@
     <title>Main Page</title>
     <link rel="stylesheet" type="text/css" href="style.css"/>
 
-    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" re1="stytlesheet">
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" re1="stylesheet">
 </head>
 
 <body onload="welcome();">
@@ -12,23 +12,27 @@
     <section class="container forms">
         <div class="form token">
             <div class="form-content-one">
-                <header>Tokens</header>
+                <header>Lobby</header>
 
-                <form action="#">
+                <form action="http://localhost:63342/cse312-because-the-internet/frontend/page3.html">
+                    <div class="field input-field">
+                        <!--show token here-->
+                        <center>
+                        <input type="text" placeholder="Enter your word here" class="input">
+                        </center>
+                    </div>
+                    <div class="field button-field">
+                        <button>Create Game</button>
+                    </div>
+                    </form>
+                     <br>
+                    <hr>
+                    <form action="http://localhost:63342/cse312-because-the-internet/frontend/page4.html">
                     <div class="field input-field">
                         <input type="text" placeholder="Enter your token here" class="input">
                     </div>
                     <div class="field button-field">
-                        <button>Start Game</button>
-                    </div>
-
-                    <div>
-                        <!--show token here-->
-                        <input type="text" placeholder="Enter your word here" class="input">
-                        <input type="text" placeholder="Maximum number of questions" class="input">         
-                    </div>
-                    <div class="field button-field">
-                        <button>Start Game</button>
+                        <button>Join Game</button>
                     </div>
                 </form>
             </div>
