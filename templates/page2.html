@@ -1,7 +1,7 @@
 <html>
 <head>
     <title>Main Page</title>
-    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
     <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" re1="stylesheet">
 </head>
@@ -14,7 +14,7 @@
             <div class="form-content-one">
                 <header>Lobby</header>
 
-                <form action="http://localhost:63342/cse312-because-the-internet/frontend/page3.html">
+                <form action="http://localhost:8080/cse312-because-the-internet/templates/page3.html">
                     <div class="field input-field">
                         <!--show token here-->
                         <center>
@@ -27,7 +27,7 @@
                     </form>
                      <br>
                     <hr>
-                    <form action="http://localhost:63342/cse312-because-the-internet/frontend/page4.html">
+                    <form action="http://localhost:8080/cse312-because-the-internet/templates/page4.html">
                     <div class="field input-field">
                         <input type="text" placeholder="Enter your token here" class="input">
                     </div>

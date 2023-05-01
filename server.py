@@ -7,6 +7,18 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 def index():
     return render_template('index.html')
 
+@app.route('/cse312-because-the-internet/templates/page2.html')
+def page2():
+    return render_template('page2.html')
+
+@app.route('/cse312-because-the-internet/templates/page3.html')
+def page3():
+    return render_template('page3.html')
+
+
+@app.route('/cse312-because-the-internet/templates/page4.html')
+def page4():
+    return render_template('page4.html')
 # @app.route('/loading.js')
 # def loading_js():
 #     return app.send_static_file('loading.js')
