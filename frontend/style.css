@@ -17,11 +17,30 @@
     background-color: #2b40a1;
 }
 
+.chat-text{
+    height: 100%;
+    width: 100%;
+    padding:  15px;
+    border: 1px solid#2b40a1;
+    font-size: 16px;
+    font-weight: 400;
+    border-radius: 4px;
+    color: black;
+    background: #2b40a1;
+}
+
+.chat-history{
+    height: 120vh;
+    width: 90vh;
+    margin:5vh;
+    background-color: #2b40a1;
+}
+
 .container-2{
     height: 100vh;
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: left;
     background-color: #2b40a1;
 }
 .game-data{

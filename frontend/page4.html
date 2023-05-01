@@ -21,23 +21,29 @@
 <body onload="welcome();">
 <h1 style="text-align:center">21 Questions</h1>
 
-<section class="container-2">
-    <div class="game-data-answerer">
-        <h1 style="text-align:center">{{Current Question}} </h1>
-        <br>
-        <h3 style="text-align:center">Amount of Questions left:</h3>
-        <form >
-            <div style="text-align:left">Enter your Question Here:</div>
-            <input type="text" placeholder="Enter your question here" class="input">
-            <div class="field button-field">
-                <button type="submit">Submit</button> <!--fix-->
-            </div>
-        </form>
+<section class="container">
+    <div class="container-2">
+        <div class="game-data-answerer">
+            <h1 style="text-align:center">{{Current Question}} </h1>
+            <form >
+                <div style="text-align:left">Enter Your Question Here:</div>
+                <div class="field input-field">
+                <input type="text" placeholder="Enter your question here" class="input">
+                </div>
+                <div class="field button-field">
+                    <button type="submit">Submit</button> <!--fix-->
+                </div>
+            </form>
+        </div>
+
+        <div class="chat-history">
+            <div  class="chat-text">{{Chat History TBA}}</div> <!--well fix this later-->
+        </div>
     </div>
 </section>
 
-<section class="container">
-    <div class="chat-history">
-        <h1>{{Chat History TBA}}</h1> <!--well fix this later-->
-    </div>
+<!--<section class="container">-->
+<!--    <div class="chat-history">-->
+<!--        <h1>{{Chat History TBA}}</h1> &lt;!&ndash;well fix this later&ndash;&gt;-->
+<!--    </div>-->
 </section>
