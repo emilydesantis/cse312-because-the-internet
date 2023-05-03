@@ -11,13 +11,17 @@
 <body>
     <div class="container-2">
         <div class="user-credentials">
-            <p>Username: {{username}}</p>
+            <p>Username: {{username }}</p>
             <p>Room Name: {{ room_name }}</p>
         </div>
         <div class="game-data">
             <h2>Players in the Lobby:</h2>
             <ul id="users-list"></ul>
         </div>
+        <!-- Add this button inside the appropriate container -->
+        <center>
+            <button id="start_game">Start Game</button>
+        </center>
     </div>
     <script>
         const socket = io.connect('http://' + document.domain + ':' + location.port);
@@ -31,6 +35,16 @@
             for (let user of usersList) {
                 $('#users-list').append('<li>' + user + '</li>');
             }
+        });
+
+        // Start game button
+        $('#start_game').click(function (e) {
+            e.preventDefault();
+            socket.emit('start_game', { room_name: roomName });
+        });
+
+        socket.on('navigate_to_page3', function (data) {
+            window.location.href = '/page3/' + roomName + '?username=' + encodeURIComponent(username);
         });
     </script>
 </body>
