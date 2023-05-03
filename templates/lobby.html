@@ -1,0 +1,43 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lobby</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="form">
+            <h1>Welcome to the Lobby</h1>
+            <h2 id="status">Waiting for the second player. The room ID is: {{ room_name }}</h2>
+            <h3>Players in the room:{{ username }}</h3>
+            <div id="players"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.min.js" integrity="sha384-KyCxw5Nx0DkixDgCz8zQ16RtlQ0h8sgy5+B5c5/u6q5Uq3q0g7zC6g1ydITD5rX8" crossorigin="anonymous"></script>
+    <script>
+        const socket = io.connect('http://' + document.domain + ':' + location.port);
+        const roomName = "{{ room_name }}";
+        const username = "{{ username }}"
+        const statusElement = document.getElementById('status');
+        const playersElement = document.getElementById('players');
+
+        socket.emit('join_room', {username: "{{username}}", room_name: roomName});
+
+
+        socket.on('player_joined', function (data) {
+            const playerInfo = document.createElement('div');
+            playerInfo.textContent = data.username;
+            playersElement.appendChild(playerInfo);
+
+            if (playersElement.childElementCount === 2) {
+                statusElement.textContent = 'Both players have joined the room!';
+            }
+        });
+        socket.on('start_game_creator', function (data) {
+    window.location.href = "{{ url_for('page3', room_name=roomName) }}?username=" + data.username;
+});
+    </script>
+</body>
+</html>

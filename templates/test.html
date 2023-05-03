@@ -74,6 +74,9 @@
             
             console.log(message);
         });
+        socket.on('navigate_to_lobby', function (data) {
+         window.location.href = '/lobby/' + data.room_name;
+        });        
 
         socket.on('room_created', function (data) {
             const message = data.player_name + ' has created and joined the room ' + data.room_name;
