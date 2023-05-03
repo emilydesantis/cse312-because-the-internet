@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_socketio import SocketIO, emit
-from flask_socketio import join_room, leave_room
+from flask_socketio import join_room, leave_room,send
 from flask_sqlalchemy import SQLAlchemy
 import os
 
@@ -12,7 +12,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] =\
 db = SQLAlchemy(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 room_user_count = {}
-
+users_in_lobby = {}
 
 #--------------------------------------
 class User(db.Model):
@@ -52,7 +52,9 @@ def page4():
 @app.route('/lobby/<room_name>')
 def lobby(room_name):
     username = request.args.get('username')
-    return render_template('lobby.html', room_name=room_name,username =username)
+    print(username)
+    print("------------------------------------")
+    return render_template('lobby.html', room_name=room_name,username=username)
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -90,10 +92,11 @@ def handle_create_room(data):
     username = data['username']
     room_name = data['room_name']
     join_room(room_name)
-    if room_name not in room_user_count:
-        room_user_count[room_name] = 1
+    room_user_count[room_name]=1
     emit('room_created', {'username': username, 'room_name': room_name}, room=room_name)
-    emit('navigate_to_lobby', {'username': username,'room_name': room_name})
+    emit('player_joined', {'username': username, 'room_name': room_name}, room=room_name)
+    emit('navigate_to_lobby', {'room_name': room_name}, room=room_name)
+
 
 @socketio.on('join_room')
 def handle_join_room(data):
@@ -104,20 +107,41 @@ def handle_join_room(data):
     else:
         emit('player_joined', {'username': username, 'room_name': room_name}, room=room_name)
         join_room(room_name)
-        room_user_count[room_name] += 1
+        room_user_count[room_name] += 1  # Increment the user count for the room
+        emit('navigate_to_lobby', {'room_name': room_name}, room=room_name)
 
-    # Start the game once the second player arrives
-    print("--------------------------------------")
-    print(room_user_count[room_name])
-    if room_user_count[room_name] == 2:
-        print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
-        emit('start_game', {'username': username}, room=room_name)
+
+        
+@socketio.on('join_lobby')
+def join_lobby(data):
+    username = data['username']
+    room_name = data['room_name']
+    join_room(room_name)
+
+    if room_name not in users_in_lobby:
+        users_in_lobby[room_name] = []
+
+    if username not in users_in_lobby[room_name]:
+        users_in_lobby[room_name].append(username)
+
+    emit('update_users_list', users_in_lobby[room_name], room=room_name)
+
+
+@socketio.on('start_game')
+def handle_start_game(data):
+    room_name = data['room_name']
+    emit('navigate_to_page3', {}, room=room_name)
+
+
+@socketio.on('send_message')
+def handle_send_message(data):
+    message = data['message']
+    room_name = data['room_name']
+    username = data['username']
+    emit('receive_message', {'message': message, 'username': username}, room=room_name)
 
 
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-        print_all_users()
-        print("--------------------------------------")
-        print("/r/n/r/n")
     socketio.run(app, host='0.0.0.0', port=8080, debug=True, allow_unsafe_werkzeug=True)

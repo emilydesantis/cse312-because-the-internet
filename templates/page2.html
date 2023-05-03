@@ -51,6 +51,8 @@
 
 
 <script>
+    var username = "{{ username }}";
+
     function generateRandomString(length) {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         let result = '';
@@ -81,22 +83,21 @@
 
         // Handle WebSocket events here
         socket.on('player_joined', function (data) {
-            const message = data.player_name + ' has joined the room ' + data.room_name;
-            
-            console.log(message);
-        });
-        socket.on('navigate_to_lobby', function (data) {
-            window.location.href = '/lobby/' + data.room_name + '?username=' + "{{username}}";
-                });     
+        const message = data.player_name + ' has joined the room ' + data.room_name;
+        console.log(message);
+    });
+    socket.on('navigate_to_lobby', function (data) {
+            window.location.href = '/lobby/' + data.room_name + "?username=" + encodeURIComponent(username);
+        });        
 
         socket.on('room_created', function (data) {
             const message = data.player_name + ' has created and joined the room ' + data.room_name;
             
             console.log(message);
         });
-        socket.on('start_game', function (data) {
-    window.location.href = "/page3/" + data.room_name + "?username=" + data.username;
-});
+        
+
+
 
     });
 </script>
