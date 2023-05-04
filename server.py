@@ -1,38 +1,167 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from flask_socketio import SocketIO, emit
-from flask_socketio import join_room, leave_room
-app = Flask(__name__, template_folder= 'frontend')
+from flask_socketio import join_room, leave_room,send
+from flask_sqlalchemy import SQLAlchemy
+import os
+import html
+import bcrypt
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'some super secret key'
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] =\
+        'sqlite:///' + os.path.join(basedir, 'database.db')
+db = SQLAlchemy(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
+room_user_count = {}
+users_in_lobby = {}
+
+#--------------------------------------
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100), unique=True, nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    password = db.Column(db.String(100), nullable=False)
+    salt = db.Column(db.String(100), nullable=False)
+
+    def __repr__(self):
+        return f'<User {self.username}>'
+
+#----------------------------------------------------
+#debugging
+def print_all_users():
+    users = User.query.all()
+    for user in users:
+        print(user)
+#-----------------------------------------------------
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/loading.js')
-def loading_js():
-    return app.send_static_file('loading.js')
+@app.route('/page2')
+def page2():
+    username = request.args.get('username')
+    return render_template('page2.html', username=username)
 
-@app.route('/style.css')
-def style_css():
-    return app.send_static_file('style.css')
+@app.route('/page3/<room_name>')
+def page3(room_name):
+    username = request.args.get('username')
+    return render_template('page3.html', room_name=room_name, username=username)
+
+@app.route('/page4')
+def page4():
+    return render_template('page4.html')
+
+@app.route('/lobby/<room_name>')
+def lobby(room_name):
+    username = request.args.get('username')
+    #escape html attack
+    username = html.escape(username)
+    print(username)
+    print("------------------------------------")
+    return render_template('lobby.html', room_name=room_name,username=username)
+
+@app.route('/login', methods=['POST'])
+def login():
+    email = request.form.get('email')
+    #escape html attack
+    email = html.escape(email)
+    password = request.form.get('password')
+    #escape html attack
+    password = html.escape(password)
+    user = User.query.filter_by(email=email).first()
+    bytes = password.encode('utf-8')
+    pw = bcrypt.hashpw(bytes, user.salt)
+    if user and user.password == pw:
+        return redirect(url_for('page2', username=user.username))
+    else:
+        return "Login unsucessfull,incorrect username or password", 401
+    
+
+@app.route('/signup', methods=['POST'])
+def signup():
+    username = request.form.get('username')
+    #escape html attack
+    username = html.escape(username)
+    email = request.form.get('email')
+    #escape html attack
+    email = html.escape(email)
+    password = request.form.get('password')
+    #escape html attack
+    password = html.escape(password)
+    #salt and hash password
+    bytes = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    hashedPW = bcrypt.hashpw(bytes, salt)
+    new_user = User(username=username, email=email, password=hashedPW, salt=salt)
+    db.session.add(new_user)
+    db.session.commit()
+    print_all_users()
+    return redirect(url_for('page2',username=username))
 
 @app.errorhandler(404)
 def not_found_error(error):
     return 'Error', 404
 
-@socketio.on('join')
-def on_join(user_data):
-    username = user_data['username']
-    room = user_data['room']
-    join_room(room)
-    send(username + ' has entered the room.', to=room)
+#--------------------------------------
+#websocket handlers
 
-@socketio.on('leave')
-def on_leave(user_data):
-    username = user_data['username']
-    room = user_data['room']
-    leave_room(room)
-    send(username + ' has left the room.', to=room)
+
+@socketio.on('create_room')
+def handle_create_room(data):
+    username = data['username']
+    room_name = data['room_name']
+    join_room(room_name)
+    room_user_count[room_name]=1
+    emit('room_created', {'username': username, 'room_name': room_name}, room=room_name)
+    emit('player_joined', {'username': username, 'room_name': room_name}, room=room_name)
+    emit('navigate_to_lobby', {'room_name': room_name}, room=room_name)
+
+
+@socketio.on('join_room')
+def handle_join_room(data):
+    username = data['username']
+    room_name = data['room_name']
+    if room_name not in room_user_count:
+        return "room does not exists", 401
+    else:
+        emit('player_joined', {'username': username, 'room_name': room_name}, room=room_name)
+        join_room(room_name)
+        room_user_count[room_name] += 1  # Increment the user count for the room
+        emit('navigate_to_lobby', {'room_name': room_name}, room=room_name)
+
+
+        
+@socketio.on('join_lobby')
+def join_lobby(data):
+    username = data['username']
+    room_name = data['room_name']
+    join_room(room_name)
+
+    if room_name not in users_in_lobby:
+        users_in_lobby[room_name] = []
+
+    if username not in users_in_lobby[room_name]:
+        users_in_lobby[room_name].append(username)
+
+    emit('update_users_list', users_in_lobby[room_name], room=room_name)
+
+
+@socketio.on('start_game')
+def handle_start_game(data):
+    room_name = data['room_name']
+    emit('navigate_to_page3', {}, room=room_name)
+
+
+@socketio.on('send_message')
+def handle_send_message(data):
+    message = data['message']
+    room_name = data['room_name']
+    username = data['username']
+    emit('receive_message', {'message': message, 'username': username}, room=room_name)
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    with app.app_context():
+        db.create_all()
+    socketio.run(app, host='0.0.0.0', port=8080, debug=True, allow_unsafe_werkzeug=True)

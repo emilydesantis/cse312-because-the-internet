@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Main Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body onload="welcome();">
+<h1 style="text-align:center">21 Questions</h1>
+
+<section class="container forms">
+    <div class="form token">
+        <div class="form-content-one">
+            <header>Lobby</header>
+
+            <div class="field input-field">
+                <!--show token here-->
+                <center>
+                <input type="text" id="room_name" placeholder="Enter your word here" class="input">
+                </center>
+            </div>
+            <div class="field button-field">
+                <button id="create_room">Create Game</button>
+            </div>
+
+            <br>
+            <hr>
+
+            <div class="field input-field">
+                <input type="text" id="join_room_name" placeholder="Enter your token here" class="input">
+            </div>
+            <div class="field button-field">
+                <button id="join_room">Join Game</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="user-credentials">
+        <h1 style="text-align:center">User Credentials</h1>
+            <form>
+                <h4 style="text-align:center">Username: {{username}}</h4>
+                <h4 style="text-align:center">Games You Won: 0</h4>
+                <h4 style="text-align:center">Games You Lost: 0</h4>
+            </form>
+    </div>
+
+</section>
+
+
+<script>
+    $(document).ready(function () {
+        const socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        // Create room button
+        $('#create_room').click(function (e) {
+            e.preventDefault();
+            const room_name = $('#room_name').val();
+            socket.emit('create_room', { username: "{{username}}", room_name: room_name });
+        });
+
+        // Join room button 
+        $('#join_room').click(function (e) {
+            e.preventDefault();
+            const room_name = $('#join_room_name').val();
+            socket.emit('join_room', { username: "{{username}}", room_name: room_name });
+        });
+
+        // Handle WebSocket events here
+        socket.on('player_joined', function (data) {
+            const message = data.player_name + ' has joined the room ' + data.room_name;
+            
+            console.log(message);
+        });
+        socket.on('navigate_to_lobby', function (data) {
+         window.location.href = '/lobby/' + data.room_name;
+        });        
+
+        socket.on('room_created', function (data) {
+            const message = data.player_name + ' has created and joined the room ' + data.room_name;
+            
+            console.log(message);
+        });
+    });
+</script>
+
+</body>
+</html>

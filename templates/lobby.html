@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lobby</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+    <div class="container-2">
+        <div class="user-credentials">
+            <p>Username: {{username }}</p>
+            <p>Room Name: {{ room_name }}</p>
+        </div>
+        <div class="game-data">
+            <h2>Players in the Lobby:</h2>
+            <ul id="users-list"></ul>
+        </div>
+        <!-- Add this button inside the appropriate container -->
+        <center>
+            <button id="start_game">Start Game</button>
+        </center>
+    </div>
+    <script>
+        const socket = io.connect('http://' + document.domain + ':' + location.port);
+        const roomName = '{{ room_name }}';
+        const username = '{{ username }}';
+
+        socket.emit('join_lobby', {'username': username, 'room_name': roomName});
+
+        socket.on('update_users_list', function(usersList) {
+            $('#users-list').empty();
+            for (let user of usersList) {
+                $('#users-list').append('<li>' + user + '</li>');
+            }
+        });
+
+        // Start game button
+        $('#start_game').click(function (e) {
+            e.preventDefault();
+            socket.emit('start_game', { room_name: roomName });
+        });
+
+        socket.on('navigate_to_page3', function (data) {
+            window.location.href = '/page3/' + roomName + '?username=' + encodeURIComponent(username);
+        });
+    </script>
+</body>
+</html>

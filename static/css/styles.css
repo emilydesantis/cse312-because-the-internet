@@ -1,0 +1,133 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: white;
+    color: Black;
+    font-family: Serif, sans-serif;
+}
+
+.container{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2b40a1;
+}
+
+.container-2{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: #2b40a1;
+}
+.game-data{
+    /*max-width: auto;*/
+    width: 50%;
+    height: 30%;
+    padding: 50px;
+    border-radius: 20px;
+    background: white;
+    margin: 50px;
+    /*float: top;*/
+    /*display: block; top: 100px;*/
+    /*position: relative; top: 10px;*/
+}
+.game-data-answerer{
+    /*max-width: auto;*/
+    width: 50%;
+    height: 35%;
+    padding: 50px;
+    border-radius: 20px;
+    background: white;
+    margin: 50px;
+    /*float: top;*/
+    /*display: block; top: 100px;*/
+    /*position: relative; top: 10px;*/
+;
+}
+
+/*.form-content-one{*/
+/*      justify-content: left;*/
+/*}*/
+
+/*.form-content-two{*/
+/*    justify-content: right;*/
+/*}*/
+
+.form{
+    max-width: 430px;
+    width: 100%;
+    padding: 30px;
+    border-radius: 20px;
+    background: white;
+    margin: 50px;
+}
+header{
+    font-size: 28px;
+    font-weight: 600;
+    color: black;
+    text-align: center;
+}
+form{
+    margin-top: 30px;
+}
+form .field{
+    height: 50px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.field button{
+    height: 100%;
+    width: 100%;
+    border: 2px solid black;
+    font-size: 16px;
+    font-weight: 400;
+    border-radius: 4px;
+    color: black;
+}
+#yes-button,
+#no-button,
+#maybe-button,
+#sometimes-button
+{
+    width: 120px;
+    height: 40px;
+    border: 2px solid black;
+    font-size: 16px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.field input{
+    height: 100%;
+    width: 100%;
+    padding:  15px;
+    border: 1px solid#2b40a1;
+    font-size: 16px;
+    font-weight: 400;
+    border-radius: 4px;
+    color: black;
+}
+
+.user-credentials{
+    width: auto;
+    height: auto;
+    padding: 20px;
+    border-radius: 20px;
+    background: white;
+    margin: 50px;
+    line-height: 20px;
+}
+
+/*.eye-icon{*/
+/*    position: absolute;*/
+/*    font-size: 18px;*/
+/*    color: black;*/
+/*}*/
+
+

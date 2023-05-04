@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
+</head>
+<body>
+    <h1 style="text-align:center">21 Questions</h1>
+    <section class="container-2">
+        <div class="game-data">
+            <h1 style="text-align:center">Current Question</h1>
+            <br>
+            <h3 style="text-align:center">Amount of Questions left:</h3>
+            <form action="#">
+                <div style="text-align:center" class="field button-field">
+                    <button id="yes-button">YES</button>
+                    <button id="no-button">NO</button>
+                    <button id="maybe-button">MAYBE</button>
+                    <button id="sometimes-button">SOMETIMES</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <div class="container">
+        <h2>Chat Room: {{ room_name }}</h2>
+        <div id="chat" style="overflow-y: scroll; height: 300px;"></div>
+        <form id="message-form">
+            <input type="text" id="message" placeholder="Type your message here..." />
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.min.js" integrity="sha384-KyCxw5Nx0DkixDgCz8zQ16RtlQ0h8sgy5+B5c5/u6q5Uq3q0g7zC6g1ydITD5rX8" crossorigin="anonymous"></script>
+    <script>
+        const socket = io.connect('http://' + document.domain + ':' + location.port);
+        const roomName = "{{ room_name }}";
+        const username = "{{ username }}";
+
+        document.getElementById('message-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const message = document.getElementById('message').value;
+            socket.emit('send_message', { message: message, room_name: roomName, username: username });
+            document.getElementById('message').value = '';
+        });
+
+        socket.on('receive_message', function (data) {
+            const messageElement = document.createElement('p');
+            messageElement.textContent = data.username + ': ' + data.message;
+            document.getElementById('chat').appendChild(messageElement);
+        });
+    </script>
+</body>
+</html>

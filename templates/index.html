@@ -1,0 +1,72 @@
+<html>
+<head>
+    <title>Login and SignUp Forms</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+
+
+
+
+
+
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" re1="stylesheet">
+</head>
+<body onload="welcome();">
+<h1 style="text-align:center">21 Questions</h1>
+
+    <section class="container forms">
+        <div class="form login">
+            <div class="form-content-one">
+                <header>Login</header>
+
+                <form action="{{ url_for('login') }}" method="post">
+                    <div class="field input-field">
+                        <input type="email"  name = "email" placeholder="Email" class="input">
+                    </div>
+
+                    <div class="field input-field">
+                        <input type="password" name = "password" placeholder="Password" class="password">
+                        <i class='bx bx-hide eye-icon'></i>
+                    </div>
+
+                    <!--forgot password?-->
+
+                    <div class="field button-field">
+                        <button type="submit">Go</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+        <header>or</header>
+
+        <div class="form sign-up">
+            <div class="form-content two">
+                <header>Create An Account</header>
+
+                <form action="{{ url_for('signup') }}" method="post">
+                    <div class="field input-field">
+                        <input type="username"  name = "username" placeholder="Username" class="username">
+                    </div>
+
+                    <div class="field input-field">
+                        <input type="email" name = "email" placeholder="Email" class="input">
+                    </div>
+
+                    <div class="field input-field">
+                        <input type="password" name = "password" placeholder="Password" class="password">
+                        <i class='bx bx-hide eye-icon'></i>
+                    </div>
+
+                    <!--forgot password?-->
+
+                    <div class="field button-field">
+                        <button type="submit">Sign Up</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </section>
