@@ -3,6 +3,8 @@ from flask_socketio import SocketIO, emit
 from flask_socketio import join_room, leave_room,send
 from flask_sqlalchemy import SQLAlchemy
 import os
+import html
+import bcrypt
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'some super secret key'
@@ -20,6 +22,7 @@ class User(db.Model):
     username = db.Column(db.String(100), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
+    salt = db.Column(db.String(100), nullable=False)
 
     def __repr__(self):
         return f'<User {self.username}>'
@@ -52,6 +55,8 @@ def page4():
 @app.route('/lobby/<room_name>')
 def lobby(room_name):
     username = request.args.get('username')
+    #escape html attack
+    username = html.escape(username)
     print(username)
     print("------------------------------------")
     return render_template('lobby.html', room_name=room_name,username=username)
@@ -59,10 +64,15 @@ def lobby(room_name):
 @app.route('/login', methods=['POST'])
 def login():
     email = request.form.get('email')
+    #escape html attack
+    email = html.escape(email)
     password = request.form.get('password')
+    #escape html attack
+    password = html.escape(password)
     user = User.query.filter_by(email=email).first()
-
-    if user and user.password == password:
+    bytes = password.encode('utf-8')
+    pw = bcrypt.hashpw(bytes, user.salt)
+    if user and user.password == pw:
         return redirect(url_for('page2', username=user.username))
     else:
         return "Login unsucessfull,incorrect username or password", 401
@@ -71,9 +81,19 @@ def login():
 @app.route('/signup', methods=['POST'])
 def signup():
     username = request.form.get('username')
+    #escape html attack
+    username = html.escape(username)
     email = request.form.get('email')
+    #escape html attack
+    email = html.escape(email)
     password = request.form.get('password')
-    new_user = User(username=username, email=email, password=password)
+    #escape html attack
+    password = html.escape(password)
+    #salt and hash password
+    bytes = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    hashedPW = bcrypt.hashpw(bytes, salt)
+    new_user = User(username=username, email=email, password=hashedPW, salt=salt)
     db.session.add(new_user)
     db.session.commit()
     print_all_users()
