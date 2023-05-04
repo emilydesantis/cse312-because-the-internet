@@ -15,17 +15,17 @@
     <title>Main Page</title>
     <link rel="stylesheet" type="text/css" href="style.css"/>
 
-    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" re1="stytlesheet">
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" re1="stylesheet">
 </head>
 
 <body onload="welcome();">
 <h1 style="text-align:center">21 Questions</h1>
-
+<!--User that is hosting and answering the questions-->
 <section class="container-2">
     <div class="game-data">
         <h1 style="text-align:center">{{Current Question}} </h1>
         <br>
-        <h3 style="text-align:center">Amount of Questions left:</h3>
+        <h3 style="text-align:center">Amount of Questions left: {{counter}}</h3>
         <form action="#">
                 <div style="text-align:center" class="field button-field">
                     <button id="yes-button">YES</button>
@@ -42,3 +42,5 @@
         <h1>{{Chat History TBA}}</h1> <!--well fix this later-->
     </div>
 </section>
+</body>
+</html>
