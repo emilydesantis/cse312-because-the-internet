@@ -9,6 +9,7 @@
 </head>
 <body>
     <h1 style="text-align:center">21 Questions</h1>
+    <h2 style="text-align:center"> Chat Room: {{ room_name }}</h2>
     <section class="container-2">
         <div class="game-data">
             <h1 style="text-align:center">Current Question</h1>
@@ -26,7 +27,6 @@
     </section>
 
     <div class="container">
-        <h2>Chat Room: {{ room_name }}</h2>
         <div id="chat" style="overflow-y: scroll; height: 300px;"></div>
         <form id="message-form">
             <input type="text" id="message" placeholder="Type your message here..." />
