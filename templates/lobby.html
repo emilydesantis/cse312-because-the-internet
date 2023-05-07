@@ -4,25 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lobby</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-    <div class="container-2">
+    <h1 style="text-align:center">21 Questions</h1>
+    <h2 style="text-align:center"> Chat Room: {{ room_name }}</h2>
+
+    <section class="container forms">
         <div class="user-credentials">
             <p>Username: {{username }}</p>
             <p>Room Name: {{ room_name }}</p>
         </div>
-        <div class="game-data">
-            <h2>Players in the Lobby:</h2>
+
+        <div class="user-credentials">
+            <h1>Players in the Lobby:</h1>
             <ul id="users-list"></ul>
+
+            <div class="field button-field" style="text-align: center">
+                <button style="text-align: center" id="start_game">Start Game</button>
+            </div>
         </div>
-        <!-- Add this button inside the appropriate container -->
-        <center>
-            <button id="start_game">Start Game</button>
-        </center>
-    </div>
+    </section>
+
     <script>
         const socket = io.connect('http://' + document.domain + ':' + location.port);
         const roomName = '{{ room_name }}';

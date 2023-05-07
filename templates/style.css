@@ -133,7 +133,8 @@ form .field{
     color: black;
 }
 
-.user-credentials{
+.user-credentials,
+.player-data{
     width: auto;
     height: auto;
     padding: 20px;
