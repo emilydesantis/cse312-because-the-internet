@@ -9,39 +9,25 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
+    <h1 style="text-align:center">21 Questions</h1>
+    <h2 style="text-align:center"> Chat Room: {{ room_name }}</h2>
+
     <section class="container forms">
-    <div class="container-2">
-        <div class="user-credentials" style="text-align:center">
+        <div class="user-credentials">
             <p>Username: {{username }}</p>
             <p>Room Name: {{ room_name }}</p>
         </div>
-    <!-- </div>
 
-    <div class="container-2"> -->
-        <div class="game-data">
-            <center>
-            <h2>Players in the Lobby:</h2>
+        <div class="user-credentials">
+            <h1>Players in the Lobby:</h1>
             <ul id="users-list"></ul>
-            </center>
-        </div>
-<<<<<<< HEAD
-    <!-- </div> -->
-   
-    <button id="start_game" class="field start-game-button" margin="auto">Start Game</button>
 
-=======
-        <!-- Add this button inside the appropriate container -->
-        <center>
-            <div id="role-selection">
-                <h3>Select your role:</h3>
-                <button id="select_word">Select Word</button>
-                <button id="ask_questions">Ask Questions</button>
+            <div class="field button-field" style="text-align: center">
+                <button style="text-align: center" id="start_game">Start Game</button>
             </div>
-            <button id="start_game" style="display:none;">Start Game</button>
-        </center>
->>>>>>> game-functionality
-    </div>
-</section>
+        </div>
+    </section>
+    
     <script>
         const socket = io.connect('http://' + document.domain + ':' + location.port);
         const roomName = '{{ room_name }}';
