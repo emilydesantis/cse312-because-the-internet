@@ -108,11 +108,17 @@ def signup():
    bytes = password.encode('utf-8')
    salt = bcrypt.gensalt()
    hashedPW = bcrypt.hashpw(bytes, salt)
-   new_user = User(username=username, email=email, password=hashedPW, salt=salt)
-   db.session.add(new_user)
-   db.session.commit()
-   print_all_users()
-   return redirect(url_for('page2',username=username))
+   userN = User.query.filter_by(username=username).first()
+   #print("username is")
+   userE = User.query.filter_by(email=email).first()
+   if not userN and not userE:
+      new_user = User(username=username, email=email, password=hashedPW, salt=salt)
+      db.session.add(new_user)
+      db.session.commit()
+      #print_all_users()
+      return redirect(url_for('page2',username=username))
+   else:
+      return "Signup unsucessfull, duplicate username or email", 401
 
 
 @app.errorhandler(404)
