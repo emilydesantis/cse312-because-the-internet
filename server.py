@@ -183,6 +183,8 @@ def join_lobby(data):
 def handle_submit_word(data):
    room_name = data['room_name']
    word = data['word']
+   #html escape
+   word = html.escape(word)
    words_to_guess[room_name] = word
    game_state[room_name]['word'] = word
    game_state[room_name]['questions_left'] = 20
@@ -193,6 +195,8 @@ def handle_submit_word(data):
 def handle_submit_question_or_guess(data):
    room_name = data['room_name']
    question_or_guess = data['question_or_guess']
+   #html escape
+   question_or_guess = html.escape(question_or_guess)
    is_guess = data['is_guess']
 
 
