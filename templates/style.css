@@ -55,7 +55,8 @@
     /*display: block; top: 100px;*/
     /*position: relative; top: 10px;*/
 }
-.game-data-answerer{
+.game-data-answerer,
+.game-info{
     /*max-width: auto;*/
     width: 50%;
     height: 35%;
