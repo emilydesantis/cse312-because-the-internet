@@ -9,20 +9,28 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
+    <section class="container forms">
     <div class="container-2">
-        <div class="user-credentials">
+        <div class="user-credentials" style="text-align:center">
             <p>Username: {{username }}</p>
             <p>Room Name: {{ room_name }}</p>
         </div>
+    <!-- </div>
+
+    <div class="container-2"> -->
+        
         <div class="game-data">
+            <center>
             <h2>Players in the Lobby:</h2>
             <ul id="users-list"></ul>
+            </center>
         </div>
-        <!-- Add this button inside the appropriate container -->
-        <center>
-            <button id="start_game">Start Game</button>
-        </center>
+    <!-- </div> -->
+   
+    <button id="start_game" class="field start-game-button" margin="auto">Start Game</button>
+
     </div>
+</section>
     <script>
         const socket = io.connect('http://' + document.domain + ':' + location.port);
         const roomName = '{{ room_name }}';
