@@ -1,3 +1,3 @@
 # cse312-because-the-internet
 
-21 Questions Game
+20 Questions Game
