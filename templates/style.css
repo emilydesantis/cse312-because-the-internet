@@ -36,7 +36,8 @@
     background-color: #2b40a1;
 }
 
-.container-2{
+.container-2,
+.container-3{
     height: 100vh;
     width: 100%;
     display: flex;
