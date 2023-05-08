@@ -1,57 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Page</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>20 Questions Game</title>
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.min.js"></script>
+   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-    <h1 style="text-align:center">21 Questions</h1>
-    <h2 style="text-align:center"> Chat Room: {{ room_name }}</h2>
-    <section class="container-2">
-        <div class="game-data">
-            <h1 style="text-align:center">Current Question</h1>
-            <br>
-            <h3 style="text-align:center">Amount of Questions left:</h3>
-            <form action="#">
-                <div style="text-align:center" class="field button-field">
-                    <button id="yes-button">YES</button>
-                    <button id="no-button">NO</button>
-                    <button id="maybe-button">MAYBE</button>
-                    <button id="sometimes-button">SOMETIMES</button>
-                </div>
-            </form>
-        </div>
-    </section>
+   <div class="container-3">
+       <h2>20 Questions Game</h2>
+       <p>Room: {{ room_name }}</p>
+       <p>Username: {{ username }}</p>
+       <p>Role: {{ role }}</p>
+       <div id="game-info">
+           <h3>Questions Remaining: <span id="questions-left">20</span></h3>
+           <div id="word-selection" style="display: none;">
+               <h3>Enter a word for the other player to guess:</h3>
+               <input type="text" id="word-input" />
+               <button id="submit-word">Submit</button>
+           </div>
+           <div id="gameplay" style="display: none;">
+               <div id="questions-container">
+                   <h3>Questions and Answers:</h3>
+                   <ul id="qa-list"></ul>
+               </div>
+               <div id="input-container" style="display: none;">
+                   <input type="text" id="input-field" />
+                   <button id="submit-input">Submit</button>
+               </div>
+               <div id="yes-no-buttons" style="display: none;">
+                   <button id="yes-button">Yes</button>
+                   <button id="no-button">No</button>
+               </div>
+           </div>
+       </div>
+   </div>
+   <script>
+       const socket = io.connect('http://' + document.domain + ':' + location.port);
+       const roomName = '{{ room_name }}';
+       const username = '{{ username }}';
+       const role = '{{ role }}';
 
-    <div class="container">
-        <div id="chat" style="overflow-y: scroll; height: 300px;"></div>
-        <form id="message-form">
-            <input type="text" id="message" placeholder="Type your message here..." />
-            <button type="submit">Send</button>
-        </form>
-    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.min.js" integrity="sha384-KyCxw5Nx0DkixDgCz8zQ16RtlQ0h8sgy5+B5c5/u6q5Uq3q0g7zC6g1ydITD5rX8" crossorigin="anonymous"></script>
-    <script>
-        const socket = io.connect('http://' + document.domain + ':' + location.port);
-        const roomName = "{{ room_name }}";
-        const username = "{{ username }}";
+       socket.emit('join_lobby', {'username': username, 'room_name': roomName});
 
-        document.getElementById('message-form').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const message = document.getElementById('message').value;
-            socket.emit('send_message', { message: message, room_name: roomName, username: username });
-            document.getElementById('message').value = '';
-        });
 
-        socket.on('receive_message', function (data) {
-            const messageElement = document.createElement('p');
-            messageElement.textContent = data.username + ': ' + data.message;
-            document.getElementById('chat').appendChild(messageElement);
-        });
-    </script>
-</body>
-</html>
+       if (role === 'select_word') {
+           $('#word-selection').show();
+           $('#yes-no-buttons').show();
+} else if (role === 'ask_questions') {
+   $('#gameplay').show();
+   $('#input-container').show();
+}
+
+
+       $('#submit-word').click(function() {
+           const word = $('#word-input').val();
+           socket.emit('submit_word', { room_name: roomName, word: word });
+           $('#word-selection').hide();
+           $('#gameplay').show();
+       });
+
+
+       $('#submit-input').click(function() {
+   const input = $('#input-field').val();
+   const is_guess = input.toLowerCase().startsWith('is it');
+   if (is_guess) {
+       const guessed_word = input.slice(5).trim().toLowerCase();
+       if (guessed_word === '{{ game_state[room_name]["word"]|lower }}') {
+           socket.emit('correct_guess', { room_name: roomName });
+           return;
+       }
+   }
+   socket.emit('submit_question_or_guess', { room_name: roomName, question_or_guess: input, is_guess: is_guess });
+   $('#input-field').val('');
+});
+
+
+       $('#yes-button').click(function() {
+   socket.emit('submit_answer', { room_name: roomName, answer: 'Yes' });
+});
+
+
+$('#no-button').click(function() {
+   socket.emit('submit_answer', { room_name: roomName, answer: 'No' });
+});
+
+
+       socket.on('start_question_round', function() {
+           $('#input-container').show();
+       });
+
+
+       socket.on('display_question', function(data) {
+           const question = data['question'];
+           $('#qa-list').append('<li class="question">' + question + '</li>');
+           updateQuestionsLeft();
+       });
+
+
+       socket.on('show_answer', function(data) {
+           const answer = data['answer'];
+           $('#qa-list').append('<li class="answer">' + answer + '</li>');
+       });
+
+
+       function updateQuestionsLeft() {
+           const currentQuestionsLeft = parseInt($('#questions-left').text());
+           $('#questions-left').text(currentQuestionsLeft - 1);
+       }
+
+
+       socket.on('disable_yes_no_buttons', function() {
+   if (role === 'select_word') {
+       $('#yes-button').prop('disabled', true);
+       $('#no-button').prop('disabled', true);
+   }
+});
+
+
+socket.on('ask_for_answer', function(data) {
+   if (role === 'select_word') {
+       $('#yes-button').prop('disabled', false);
+       $('#no-button').prop('disabled', false);
+   }
+});
+
+
+
+
+       socket.on('game_over', function(data) {
+       const result = data['result'];
+       if (result === 'win') {
+           alert('Congratulations! You correctly guessed the word!');
+       } else if (result === 'lose') {
+           alert('Game over! You ran out of questions without guessing the word.');
+       } else {
+           alert('An error occurred, please try again.');
+       }
+       window.location.href = '/';
+   });
+</script>
