@@ -270,7 +270,16 @@ def handle_select_role(data):
        emit('choose_word', room=room_name)
 
 
+@socketio.on('hide_ask')
+def handle_hide_ask(data):
+   room_name = data['room_name']
+   emit('ask_gone',room= room_name)
 
+
+@socketio.on('hide_select')
+def handle_hide_ask(data):
+   room_name = data['room_name']
+   emit('select_gone',room= room_name)
 
 
 
