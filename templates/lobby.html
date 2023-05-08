@@ -18,23 +18,35 @@
     <!-- </div>
 
     <div class="container-2"> -->
-        
         <div class="game-data">
             <center>
             <h2>Players in the Lobby:</h2>
             <ul id="users-list"></ul>
             </center>
         </div>
+<<<<<<< HEAD
     <!-- </div> -->
    
     <button id="start_game" class="field start-game-button" margin="auto">Start Game</button>
 
+=======
+        <!-- Add this button inside the appropriate container -->
+        <center>
+            <div id="role-selection">
+                <h3>Select your role:</h3>
+                <button id="select_word">Select Word</button>
+                <button id="ask_questions">Ask Questions</button>
+            </div>
+            <button id="start_game" style="display:none;">Start Game</button>
+        </center>
+>>>>>>> game-functionality
     </div>
 </section>
     <script>
         const socket = io.connect('http://' + document.domain + ':' + location.port);
         const roomName = '{{ room_name }}';
         const username = '{{ username }}';
+        let role = null;
 
         socket.emit('join_lobby', {'username': username, 'room_name': roomName});
 
@@ -45,15 +57,44 @@
             }
         });
 
+        // Role selection buttons
+        $('#select_word').click(function (e) {
+            e.preventDefault();
+            role = 'select_word';
+            socket.emit('select_role', {username: username, room_name: roomName, role: role});
+            $('#role-selection').hide();
+            $('#start_game').show();
+        });
+
+        $('#ask_questions').click(function (e) {
+            e.preventDefault();
+            role = 'ask_questions';
+            socket.emit('select_role', {username: username, room_name: roomName, role: role});
+            $('#role-selection').hide();
+            $('#start_game').show();
+        });
+
         // Start game button
         $('#start_game').click(function (e) {
             e.preventDefault();
-            socket.emit('start_game', { room_name: roomName });
+            if (role) {
+                socket.emit('start_game', { room_name: roomName, role: role });
+            } else {
+                alert('Please select a role before starting the game.');
+            }
         });
+        
 
         socket.on('navigate_to_page3', function (data) {
-            window.location.href = '/page3/' + roomName + '?username=' + encodeURIComponent(username);
+            window.location.href = '/page3/' + roomName + '?username=' + encodeURIComponent(username) + '&role=' + encodeURIComponent(role);
         });
+    socket.on('auto_assign_role', function (data) {
+        if (username === data.username) {
+            role = data.role;
+            $('#role-selection').hide();
+            $('#start_game').show();
+    }
+});
     </script>
 </body>
 </html>
