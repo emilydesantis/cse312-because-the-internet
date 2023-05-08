@@ -60,6 +60,7 @@
             socket.emit('select_role', {username: username, room_name: roomName, role: role});
             $('#role-selection').hide();
             $('#start_game').show();
+            socket.emit('hide_select', {username: username, room_name: roomName, role: role});
         });
 
         $('#ask_questions').click(function (e) {
@@ -68,6 +69,7 @@
             socket.emit('select_role', {username: username, room_name: roomName, role: role});
             $('#role-selection').hide();
             $('#start_game').show();
+            socket.emit('hide_ask', {username: username, room_name: roomName, role: role});
         });
 
         // Start game button
@@ -84,12 +86,23 @@
         socket.on('navigate_to_page3', function (data) {
             window.location.href = '/page3/' + roomName + '?username=' + encodeURIComponent(username) + '&role=' + encodeURIComponent(role);
         });
+        socket.on('ask_gone', function() {
+   
+            $('#ask_questions').hide();
+  
+       });
+       socket.on('select_gone', function() {
+   
+            $('#select_word').hide();
+
+            });
     socket.on('auto_assign_role', function (data) {
         if (username === data.username) {
             role = data.role;
             $('#role-selection').hide();
             $('#start_game').show();
     }
+   
 });
     </script>
 </body>

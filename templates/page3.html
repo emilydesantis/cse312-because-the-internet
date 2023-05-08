@@ -51,14 +51,14 @@
        socket.emit('join_lobby', {'username': username, 'room_name': roomName});
 
 
-       if (role === 'select_word') {
-           $('#word-selection').show();
-           $('#yes-no-buttons').show();
-} else if (role === 'ask_questions') {
-   $('#gameplay').show();
-   $('#input-container').show();
+    if (role === 'select_word') {
+        $('#word-selection').show();
+        $('#yes-no-buttons').show();
+        $('#input-container').hide();
+}   else if (role === 'ask_questions') {
+    $('#gameplay').show();
+     $('#input-container').hide();
 }
-
 
        $('#submit-word').click(function() {
            const word = $('#word-input').val();
@@ -67,10 +67,9 @@
            $('#gameplay').show();
        });
 
-
        $('#submit-input').click(function() {
    const input = $('#input-field').val();
-   const is_guess = input.toLowerCase().startsWith('is it');
+   const is_guess = input.toLowerCase().startsWith('guess');
    if (is_guess) {
        const guessed_word = input.slice(5).trim().toLowerCase();
        if (guessed_word === '{{ game_state[room_name]["word"]|lower }}') {
@@ -83,7 +82,7 @@
 });
 
 
-       $('#yes-button').click(function() {
+    $('#yes-button').click(function() {
    socket.emit('submit_answer', { room_name: roomName, answer: 'Yes' });
 });
 
@@ -94,7 +93,18 @@ $('#no-button').click(function() {
 
 
        socket.on('start_question_round', function() {
-           $('#input-container').show();
+        if (role === 'select_word') {
+            $('#gameplay').show();
+            $('#input-container').hide();
+            $('#yes-no-buttons').show();
+            $('#yes-button').prop('disabled', true);
+            $('#no-button').prop('disabled', true);
+            
+}       else if (role === 'ask_questions') {
+            $('#gameplay').show();
+            $('#input-container').show();
+}
+
        });
 
 
@@ -117,7 +127,7 @@ $('#no-button').click(function() {
        }
 
 
-       socket.on('disable_yes_no_buttons', function() {
+socket.on('disable_yes_no_buttons', function() {
    if (role === 'select_word') {
        $('#yes-button').prop('disabled', true);
        $('#no-button').prop('disabled', true);
@@ -134,15 +144,14 @@ socket.on('ask_for_answer', function(data) {
 
 
 
-
-       socket.on('game_over', function(data) {
-       const result = data['result'];
-       if (result === 'win') {
-           alert('Congratulations! You correctly guessed the word!');
-       } else if (result === 'lose') {
-           alert('Game over! You ran out of questions without guessing the word.');
-       } else {
-           alert('An error occurred, please try again.');
+socket.on('game_over', function(data) {
+    const result = data['result'];
+    if (result === 'win') {
+        alert('Congratulations! You correctly guessed the word!');
+    } else if (result === 'lose') {
+        alert('Game over! You ran out of questions without guessing the word.');
+    } else {
+        alert('An error occurred, please try again.');
        }
        window.location.href = '/';
    });
