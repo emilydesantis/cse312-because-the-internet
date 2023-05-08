@@ -191,10 +191,12 @@ def handle_submit_question_or_guess(data):
 
 
    if is_guess:
-       if question_or_guess.lower() == f"is it {game_state[room_name]['word'].lower()}":
+       if question_or_guess.lower() == f"guess {game_state[room_name]['word'].lower()}":
            emit('game_over', {'result': 'win'}, room=room_name)
        else:
            game_state[room_name]['questions_left'] -= 1
+           emit('display_question', {'question': question_or_guess}, room=room_name)
+           emit('ask_for_answer', {'question': question_or_guess}, room=room_name)
            if game_state[room_name]['questions_left'] <= 0:
                emit('game_over', {'result': 'lose'}, room=room_name)
    else:
@@ -204,13 +206,14 @@ def handle_submit_question_or_guess(data):
        else:
            emit('display_question', {'question': question_or_guess}, room=room_name)
            emit('ask_for_answer', {'question': question_or_guess}, room=room_name)
-           emit('disable_yes_no_buttons', room=room_name)
+           
 
 
 @socketio.on('submit_answer')
 def handle_submit_answer(data):
    room_name = data['room_name']
    answer = data['answer']
+   emit('disable_yes_no_buttons', room=room_name)
    emit('show_answer', {'answer': answer}, room=room_name)
 
 
@@ -232,6 +235,7 @@ def handle_start_game(data):
 def handle_start_question_round(data):
    room_name = data['room_name']
    emit('start_question_round', room=room_name)
+   emit('disable_yes_no_buttons', room=room_name)
 
 
 
