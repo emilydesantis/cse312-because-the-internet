@@ -92,7 +92,8 @@ def login():
    pw = bcrypt.hashpw(bytes, user.salt)
    if user and user.password == pw:
        session['username'] = user.username
-       return redirect(url_for('page2', username=user.username))
+       render_template('page2',username=username)
+       
    else:
        return "Login unsucessfull,incorrect username or password", 401
   
@@ -122,7 +123,7 @@ def signup():
       db.session.commit()
       #print_all_users()
       session['username'] = username
-      return redirect(url_for('page2',username=username))
+      render_template('page2',username=username)
    else:
       return "Signup unsucessfull, duplicate username or email", 401
 
