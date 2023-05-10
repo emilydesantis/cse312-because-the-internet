@@ -80,7 +80,7 @@
         console.log(message);
     });
     socket.on('navigate_to_lobby', function (data) {
-            window.location.href = '/lobby/' + data.room_name + "?username=" + encodeURIComponent(username);
+            window.location.href = '/lobby/' + data.room_name;
         });        
 
         socket.on('room_created', function (data) {
