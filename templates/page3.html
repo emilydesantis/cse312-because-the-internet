@@ -12,47 +12,49 @@
    <h1 style="text-align:center">20 Questions by BecauseTheInternet</h1>
    <p style="text-align:center">Room: {{ room_name }}</p>
    <section class="container">
-    <div id="rules">
-        <h2 style="font-style: italic">Game Description</h2>
-        <p>This is a game where you battle to the death</p>
-        <p>to guess the word your opponent provides.</p>
-        <p>You have 20 chances to ask ‘yes or no’</p> 
-        <p>questions before you lose.</p>
-        <br>
-        <h2 style="font-style: italic">Game Rules</h2>
-        <p>1. Uses the keyword “guess” followed by the</p>
-        <p>word that you are guessing to make a guess</p>
-        <p>2. Do not refresh ;)</p>
-    </div>
-          <div class="container-3">
-              <p style="text-align:center">Username: {{ username }}</p>
-              <p style="text-align:center">Role: {{ role }}</p>
+       <div id="rules">
+            <h2 style="font-style: italic">Game Description</h2>
+            <p>This is a game where you battle to the death</p>
+            <p>to guess the word your opponent provides.</p>
+            <p>You have 20 chances to ask ‘yes or no’</p>
+            <p>questions before you lose.</p>
+            <br>
+            <h2 style="font-style: italic">Game Rules</h2>
+            <p>1. Uses the keyword “guess” followed by the</p>
+            <p>word that you are guessing to make a guess</p>
+            <p>2. Do not refresh ;)</p>
+       </div>
+
+       <div class="container-3">
+           <p style="text-align:center">Username: {{ username }}</p>
+           <p style="text-align:center">Role: {{ role }}</p>
 
 
-               <div id="game-info">
-                   <h3 style="text-align:center">Questions Remaining: <span id="questions-left">20</span></h3>
-                   <div id="word-selection" style="display: none;">
-                       <h3>Enter a word for the other player to guess:</h3>
-                       <input type="text" id="word-input" />
-                       <button id="submit-word">Submit</button>
-                   </div>
+           <div id="game-info">
+               <h3 style="text-align:center">Questions Remaining: <span id="questions-left">20</span></h3>
+               <div id="word-selection" style="display: none;">
+                   <h3>Enter a word for the other player to guess:</h3>
+                   <input type="text" id="word-input" />
+                   <button id="submit-word">Submit</button>
                </div>
-                   <div id="gameplay" style="display: none;">
-                       <div id="questions-container">
-                           <h3 style="text-align: center">Questions and Answers:</h3>
-                           <ul id="qa-list"></ul>
-                       </div>
-                       <div id="input-container" style="display: none;">
-                           <input type="text" id="input-field" />
-                           <button id="submit-input">Submit</button>
-                       </div>
-                       <div id="yes-no-buttons" style="display: none;">
-                           <button id="yes-button">Yes</button>
-                           <button id="no-button">No</button>
-                       </div>
-                   </div>
+           </div>
+
+           <div id="gameplay" style="display: none;">
+               <div id="questions-container">
+                   <h3 style="text-align: center">Questions and Answers:</h3>
+                   <ul id="qa-list"></ul>
                </div>
-          </div>
+               <div id="input-container" style="display: none;">
+                   <input type="text" id="input-field" />
+                   <button id="submit-input">Submit</button>
+               </div>
+               <div id="yes-no-buttons" style="display: none;">
+                   <button id="yes-button">Yes</button>
+                   <button id="no-button">No</button>
+               </div>
+           </div>
+       </div>
+<!--          </div>-->
    </section>
 
    <script>
