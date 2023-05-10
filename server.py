@@ -72,7 +72,7 @@ def lobby(room_name):
    username = html.escape(username)
    print(username)
    print("------------------------------------")
-   return render_template('lobby.html', room_name=room_name,username=username)
+   return render_template('lobby.html', room_name=room_name, username=username)
 
 
 @app.route('/login', methods=['POST'])

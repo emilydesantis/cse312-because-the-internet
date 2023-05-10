@@ -9,9 +9,24 @@
 </head>
 
 <body onload="welcome();">
-<h1 style="text-align:center">20 Questions</h1>
+<h1 style="text-align:center">20 Questions by BecauseTheInternet</h1>
 
 <section class="container forms">
+    <div class="user-credentials">
+        <h1 style="text-align: center">Quick Start</h1>
+        <br>
+        <h4 style="font-style: italics; text-align: center">THIS IS A TWO-PLAYER GAME</h4>
+        <p style="text-align: center">Player one will create the game and share the lobby-token with player two</p>
+        <p style="text-align: center">Player two will use this token to enter player one’s lobby </p>
+        <br>
+        <hr>
+        <br>
+        <h1 style="text-align:center">User Credentials</h1>
+            <form>
+                <h4 style="text-align:center">Username: {{username}}</h4>
+            </form>
+    </div>
+
     <div class="form token">
         <div class="form-content-one">
             <header>Lobby</header>
@@ -30,13 +45,6 @@
                 <button id="join_room">Join Game</button>
             </div>
         </div>
-    </div>
-
-    <div class="user-credentials">
-        <h1 style="text-align:center">User Credentials</h1>
-            <form>
-                <h4 style="text-align:center">Username: {{username}}</h4>
-            </form>
     </div>
 
 </section>
