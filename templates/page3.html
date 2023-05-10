@@ -13,8 +13,22 @@
    <p style="text-align:center">Room: {{ room_name }}</p>
    <section class="container">
           <div class="container-3">
-               <p style="text-align:center">Username: {{ username }}</p>
-               <p style="text-align:center">Role: {{ role }}</p>
+              <p style="text-align:center">Username: {{ username }}</p>
+              <p style="text-align:center">Role: {{ role }}</p>
+
+              <div id="rules">
+                  <h1 style="font-style: italic">Game Description</h1>
+                  <h3>This is a game where you battle to the death</h3>
+                  <h3>to guess the word your opponent provides.</h3>
+                  <h3>You have 20 chances to ask ‘yes or no’ questions before you lose.</h3>
+                  <br>
+                  <h1 style="font-style: italic">Game Rules</h1>
+                  <h3>1. Uses the keyword “guess” followed by the</h3>
+                  <h3>word that you are guessing to make a guess</h3>
+                  <h3>2. Do not refresh ;)</h3>
+              </div>
+              <h1 style="text-align:center">Game Rules</h1>
+
                <div id="game-info">
                    <h3 style="text-align:center">Questions Remaining: <span id="questions-left">20</span></h3>
                    <div id="word-selection" style="display: none;">
@@ -148,12 +162,22 @@ socket.on('ask_for_answer', function(data) {
 socket.on('game_over', function(data) {
     const result = data['result'];
     if (result === 'win') {
-        alert('Congratulations! You correctly guessed the word!');
+        if (role === 'ask_questions'){
+           alert('Congratulations! You correctly guessed the word!');
+        }
+        if (role === 'select_word'){
+            alert('Loser! Pick a harder word next time.');
+        }
     } else if (result === 'lose') {
-        alert('Game over! You ran out of questions without guessing the word.');
+        if (role === 'ask_questions') {
+            alert('Game Over! You ran out of questions without guessing the word.');
+        }
+        if (role === 'select_word'){
+            alert('Nice Choice! Your word was too hard to guess!');
+        }
     } else {
         alert('An error occurred, please try again.');
        }
-       window.location.href = '/';
+       window.location.href = '/page2' + '?username=' + encodeURIComponent(username);
    });
 </script>

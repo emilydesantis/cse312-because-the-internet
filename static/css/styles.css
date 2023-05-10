@@ -25,7 +25,8 @@
     background-color: #2b40a1;
     display: block;
 }
-.game-data{
+.game-data,
+.rules{
     /*max-width: auto;*/
     width: 50%;
     height: 30%;
@@ -111,7 +112,7 @@ form .field{
     justify-content: center;
     align-items: center;
     font-size: 16px;
-    margin: center;
+    /*margin: center;*/
 }
 
 .field input{
@@ -125,6 +126,7 @@ form .field{
     color: black;
 }
 
+.container-3,
 .user-credentials{
     width: auto;
     height: auto;

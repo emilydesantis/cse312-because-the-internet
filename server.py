@@ -89,7 +89,7 @@ def login():
    if user and user.password == pw:
        return redirect(url_for('page2', username=user.username))
    else:
-       return "Login unsucessfull,incorrect username or password", 401
+       return "Login unsuccessful,incorrect username or password", 401
   
 
 
@@ -118,7 +118,7 @@ def signup():
       #print_all_users()
       return redirect(url_for('page2',username=username))
    else:
-      return "Signup unsucessfull, duplicate username or email", 401
+      return "Signup unsuccessful, duplicate username or email", 401
 
 
 @app.errorhandler(404)
