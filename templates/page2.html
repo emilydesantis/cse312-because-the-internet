@@ -57,7 +57,8 @@
     }
 
     $(document).ready(function () {
-        const socket = io.connect('http://' + document.domain + ':' + location.port);
+        let theProtocol = window.location.protocol;
+        const socket = io.connect(theProtocol + '//' + document.domain + ':' + location.port);
 
         // Create room button
         $('#create_room').click(function (e) {

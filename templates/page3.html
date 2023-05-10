@@ -42,7 +42,8 @@
    </section>
 
    <script>
-       const socket = io.connect('http://' + document.domain + ':' + location.port);
+       let theProtocol = window.location.protocol;
+       const socket = io.connect(theProtocol + '//' + document.domain + ':' + location.port);
        const roomName = '{{ room_name }}';
        const username = '{{ username }}';
        const role = '{{ role }}';
