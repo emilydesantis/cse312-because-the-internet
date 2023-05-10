@@ -84,12 +84,14 @@ def login():
    #escape html attack
    password = html.escape(password)
    user = User.query.filter_by(email=email).first()
+   if not user:
+      return "Login unsuccessful, incorrect username or password", 401
    bytes = password.encode('utf-8')
    pw = bcrypt.hashpw(bytes, user.salt)
    if user and user.password == pw:
        return redirect(url_for('page2', username=user.username))
    else:
-       return "Login unsuccessful,incorrect username or password", 401
+       return "Login unsuccessful, incorrect username or password", 401
   
 
 
