@@ -154,6 +154,6 @@ socket.on('game_over', function(data) {
     } else {
         alert('An error occurred, please try again.');
        }
-       window.location.href = '/';
+       window.location.href = '/page2/' +'?username=' + encodeURIComponent(username);
    });
 </script>

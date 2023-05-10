@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from flask_socketio import SocketIO, emit
 from flask_socketio import join_room, leave_room,send
 from flask_sqlalchemy import SQLAlchemy
@@ -49,14 +49,17 @@ def index():
 
 @app.route('/page2')
 def page2():
-   username = request.args.get('username')
+   username = session.get('username')
+   #username = request.args.get('username')
    return render_template('page2.html', username=username)
 
 
 @app.route('/page3/<room_name>', methods=['GET'])
 def page3(room_name):
-   username = request.args.get('username')
-   role = request.args.get('role')
+   #username = request.args.get('username')
+   username = session.get('username')
+   role = session.get('role')
+   #role = request.args.get('role')
    return render_template('page3.html', room_name=room_name, username=username, role=role, game_state=game_state)
 
 
@@ -67,7 +70,8 @@ def page4():
 
 @app.route('/lobby/<room_name>')
 def lobby(room_name):
-   username = request.args.get('username')
+   username = session.get('username')
+   #username = request.args.get('username')
    #escape html attack
    username = html.escape(username)
    print(username)
@@ -87,6 +91,7 @@ def login():
    bytes = password.encode('utf-8')
    pw = bcrypt.hashpw(bytes, user.salt)
    if user and user.password == pw:
+       session['username'] = user.username
        return redirect(url_for('page2', username=user.username))
    else:
        return "Login unsucessfull,incorrect username or password", 401
@@ -116,6 +121,7 @@ def signup():
       db.session.add(new_user)
       db.session.commit()
       #print_all_users()
+      session['username'] = username
       return redirect(url_for('page2',username=username))
    else:
       return "Signup unsucessfull, duplicate username or email", 401
