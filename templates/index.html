@@ -15,31 +15,6 @@
 <h1 style="text-align:center">20 Questions</h1>
 
     <section class="container forms">
-        <div class="form login">
-            <div class="form-content-one">
-                <header>Login</header>
-
-                <form action="{{ url_for('login') }}" method="post">
-                    <div class="field input-field">
-                        <input type="email"  name = "email" placeholder="Email" class="input">
-                    </div>
-
-                    <div class="field input-field">
-                        <input type="password" name = "password" placeholder="Password" class="password">
-                        <i class='bx bx-hide eye-icon'></i>
-                    </div>
-
-                    <!--forgot password?-->
-
-                    <div class="field button-field">
-                        <button type="submit">Go</button>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-
-        <header>or</header>
 
         <div class="form sign-up">
             <div class="form-content two">
@@ -69,4 +44,32 @@
             </div>
         </div>
 
+        <header>or</header>
+
+        <div class="form login">
+            <div class="form-content-one">
+                <header>Login</header>
+
+                <form action="{{ url_for('login') }}" method="post">
+                    <div class="field input-field">
+                        <input type="email"  name = "email" placeholder="Email" class="input">
+                    </div>
+
+                    <div class="field input-field">
+                        <input type="password" name = "password" placeholder="Password" class="password">
+                        <i class='bx bx-hide eye-icon'></i>
+                    </div>
+
+                    <!--forgot password?-->
+
+                    <div class="field button-field">
+                        <button type="submit">Go</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
     </section>
+</body>
+</html>
