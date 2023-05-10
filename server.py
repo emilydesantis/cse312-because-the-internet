@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 import html
 import bcrypt
+import secrets
 
 
 app = Flask(__name__)
@@ -18,6 +19,8 @@ room_user_count = {}
 users_in_lobby = {}
 words_to_guess = {}
 game_state = {}
+
+app.secret_key = secrets.token_urlsafe()
 
 
 
@@ -92,7 +95,7 @@ def login():
    pw = bcrypt.hashpw(bytes, user.salt)
    if user and user.password == pw:
        session['username'] = user.username
-       return redirect(url_for('page2', username=user.username))
+       return render_template('page2.html', username=user.username)
    else:
        return "Login unsucessfull,incorrect username or password", 401
   
@@ -122,7 +125,7 @@ def signup():
       db.session.commit()
       #print_all_users()
       session['username'] = username
-      return redirect(url_for('page2',username=username))
+      return render_template('page2.html',username=username)
    else:
       return "Signup unsucessfull, duplicate username or email", 401
 
